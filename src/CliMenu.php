@@ -252,6 +252,8 @@ class CliMenu
      */
     protected function draw() : void
     {
+        $oldFrame = $this->currentFrame;
+        
         $this->terminal->clean();
         $this->terminal->moveCursorToTop();
 
