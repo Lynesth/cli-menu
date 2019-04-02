@@ -63,7 +63,7 @@ class CliMenu
     /**
      * @var array
      */
-    protected $defaultControlMappings = [
+    static protected $defaultControlMappings = [
         '^P' => InputCharacter::UP,
         'k'  => InputCharacter::UP,
         '^K' => InputCharacter::DOWN,
@@ -205,7 +205,7 @@ class CliMenu
      */
     public function disableDefaultControlMappings() : void
     {
-        $this->defaultControlMappings = [];
+        self::$defaultControlMappings = [];
     }
 
     /**
@@ -213,7 +213,7 @@ class CliMenu
      */
     public function setDefaultControlMappings(array $defaultControlMappings) : void
     {
-        $this->defaultControlMappings = $defaultControlMappings;
+        self::$defaultControlMappings = $defaultControlMappings;
     }    
 
     /**
@@ -221,7 +221,7 @@ class CliMenu
      */
     public function addCustomControlMapping(string $input, callable $callable) : void
     {
-        if (isset($this->defaultControlMappings[$input]) || isset($this->customControlMappings[$input])) {
+        if (isset(self::$defaultControlMappings[$input]) || isset($this->customControlMappings[$input])) {
             throw new \InvalidArgumentException('Cannot rebind this input');
         }
 
@@ -258,7 +258,7 @@ class CliMenu
         $this->draw();
 
         $reader = new NonCanonicalReader($this->terminal);
-        $reader->addControlMappings($this->defaultControlMappings);
+        $reader->addControlMappings(self::$defaultControlMappings);
 
         while ($this->isOpen()) {
             $char = $reader->readCharacter();
